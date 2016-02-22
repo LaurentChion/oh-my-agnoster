@@ -20,35 +20,35 @@ prompt_end() {
 
 # Git informations, printed only in a git repo
 prompt_git() {
-    local current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
+	local current_commit_hash=$(git rev-parse HEAD 2> /dev/null)
     
-    if [[ -n $current_commit_hash ]]; then
-        local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+	if [[ -n $current_commit_hash ]]; then
+		local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
 		local local_prompt=""
 		local commit_prompt=""
 		local remote_prompt=""
 
 		# Getting more infos if the repo have log
-        if [[ $(git log --pretty=oneline -n1 2> /dev/null | wc -l) -ne 0 ]]; then
-            local upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
-            local git_status="$(git status --porcelain 2> /dev/null)"
+		if [[ $(git log --pretty=oneline -n1 2> /dev/null | wc -l) -ne 0 ]]; then
+			local upstream=$(git rev-parse --symbolic-full-name --abbrev-ref @{upstream} 2> /dev/null)
+			local git_status="$(git status --porcelain 2> /dev/null)"
 			local tag=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
 
-            [[ $git_status =~ ($'\n'|^).M ]] && local_prompt+=" ✎"
-            [[ $git_status =~ ($'\n'|^)M ]] && local_prompt+=" "
-            [[ $git_status =~ ($'\n'|^)A ]] && local_prompt+=" +"
-            [[ $git_status =~ ($'\n'|^).D ]] && local_prompt+=" "
-            [[ $git_status =~ ($'\n'|^)D ]] && local_prompt+=" "
-            [[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]] && local_prompt+=" "
-            [[ $(\grep -c "^??" <<< "${git_status}") -gt 0 ]] && local_prompt+=" " 
+			[[ $git_status =~ ($'\n'|^).M ]] && local_prompt+=" ✎"
+			[[ $git_status =~ ($'\n'|^)M ]] && local_prompt+=" "
+			[[ $git_status =~ ($'\n'|^)A ]] && local_prompt+=" +"
+			[[ $git_status =~ ($'\n'|^).D ]] && local_prompt+=" "
+			[[ $git_status =~ ($'\n'|^)D ]] && local_prompt+=" "
+			[[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]] && local_prompt+=" "
+			[[ $(\grep -c "^??" <<< "${git_status}") -gt 0 ]] && local_prompt+=" " 
 			[[ $(git stash list -n1 2> /dev/null | wc -l) -gt 0 ]] && local_prompt+=" "
         
-            if [[ -n "$upstream" ]]; then
-                local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
-                local commits_ahead=$(\grep -c "^<" <<< "$commits_diff")
-                local commits_behind=$(\grep -c "^>" <<< "$commits_diff")
-            fi
-        fi
+			if [[ -n "$upstream" ]]; then
+				local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
+				local commits_ahead=$(\grep -c "^<" <<< "$commits_diff")
+				local commits_behind=$(\grep -c "^>" <<< "$commits_diff")
+			fi
+		fi
 
 		# Commits part
 		[[ -z $upstream ]] && commit_prompt="--  --"
@@ -57,12 +57,12 @@ prompt_git() {
 		[[ $commits_ahead -gt 0 && $commits_behind -eq 0 ]] && commit_prompt="-- ▲ +${commits_ahead}"
 
 		# Branch/Upstream part
-        if [[ -z "$upstream" ]]; then
+		if [[ -z "$upstream" ]]; then
 			remote_prompt="$current_branch"
-        else
+		else
 			[[ $(git config --get branch.${current_branch}.rebase 2> /dev/null) == true ]] && symbol="" || symbol=""
 			remote_prompt="${current_branch} ${symbol} ${upstream//\/$current_branch/}"
-        fi
+		fi
 		[[ -n $tag ]] && remote_prompt+=" $tag"
 
 		# Print the git prompt
