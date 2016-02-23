@@ -24,7 +24,7 @@ prompt_git() {
     
 	if [[ -n $current_commit_hash ]]; then
 		local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-		local local_prompt=""
+		local local_prompt="⚡"
 		local commit_prompt=""
 		local remote_prompt=""
 
@@ -34,14 +34,14 @@ prompt_git() {
 			local git_status="$(git status --porcelain 2> /dev/null)"
 			local tag=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
 
-			[[ $git_status =~ ($'\n'|^).M ]] && local_prompt+=" ✎"
-			[[ $git_status =~ ($'\n'|^)M ]] && local_prompt+=" "
-			[[ $git_status =~ ($'\n'|^)A ]] && local_prompt+=" +"
+			[[ $git_status =~ ($'\n'|^).M ]] && local_prompt+=" ●"
+			[[ $git_status =~ ($'\n'|^)M ]] && local_prompt+=" ▸"
+			[[ $git_status =~ ($'\n'|^)A ]] && local_prompt+=" ✚"
 			[[ $git_status =~ ($'\n'|^).D ]] && local_prompt+=" "
-			[[ $git_status =~ ($'\n'|^)D ]] && local_prompt+=" "
+			[[ $git_status =~ ($'\n'|^)D ]] && local_prompt+=" ◾"
 			[[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]] && local_prompt+=" "
-			[[ $(\grep -c "^??" <<< "${git_status}") -gt 0 ]] && local_prompt+=" " 
-			[[ $(git stash list -n1 2> /dev/null | wc -l) -gt 0 ]] && local_prompt+=" "
+			[[ $(\grep -c "^??" <<< "${git_status}") -gt 0 ]] && local_prompt+=" ★" 
+			[[ $(git stash list -n1 2> /dev/null | wc -l) -gt 0 ]] && local_prompt+=" ◐"
         
 			if [[ -n "$upstream" ]]; then
 				local commits_diff="$(git log --pretty=oneline --topo-order --left-right ${current_commit_hash}...${upstream} 2> /dev/null)"
@@ -63,7 +63,7 @@ prompt_git() {
 			[[ $(git config --get branch.${current_branch}.rebase 2> /dev/null) == true ]] && symbol="" || symbol=""
 			remote_prompt="${current_branch} ${symbol} ${upstream//\/$current_branch/}"
 		fi
-		[[ -n $tag ]] && remote_prompt+=" $tag"
+		[[ -n $tag ]] && remote_prompt+="⚑ $tag"
 
 		# Print the git prompt
 		prompt_segment green black $local_prompt
