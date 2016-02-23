@@ -1,7 +1,8 @@
 # oh-my-agnoster
-A standalone ZSH prompt inspired by the agnoster theme of oh-my-zsh and oh-my-git
+A standalone ZSH prompt inspired by the agnoster theme of oh-my-zsh and oh-my-git, without the bloat
 
 # Usage
+You need a font with powerline and git symbols.
 Just source it from your zshrc
 
 # Features
@@ -13,5 +14,6 @@ Just source it from your zshrc
 * * Commit shows how many commit are you ahead/behind
 * * Remote shows the branche and the remote, or the hash if you're detached
 
-# Screenshot
-![screenshot](https://i.imgur.com/v2qGQMG.png)
+# Screenshots
+![screen1](https://i.imgur.com/qqPyZQ4.png)
+![screen2](https://i.imgur.com/JpqKWk4.png)
