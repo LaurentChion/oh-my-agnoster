@@ -24,7 +24,7 @@ prompt_git() {
     
 	if [[ -n $current_commit_hash ]]; then
 		local current_branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-		local local_prompt="⚡"
+		local local_prompt="┇"
 		local commit_prompt=""
 		local remote_prompt=""
 
