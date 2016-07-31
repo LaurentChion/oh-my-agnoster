@@ -2,7 +2,7 @@
 A standalone ZSH prompt inspired by the agnoster theme of oh-my-zsh and oh-my-git, without the bloat
 
 # Usage
-You need a font with powerline and git symbols.
+This prompt works with nerd-fonts.
 Just source it from your zshrc
 
 # Features
