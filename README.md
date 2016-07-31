@@ -15,5 +15,5 @@ Just source it from your zshrc
 * * Remote shows the branche and the remote, or the hash if you're detached
 
 # Screenshots
-![screen1](https://i.imgur.com/fOua3vn.png)
+![screen1](https://i.imgur.com/fOua3vn.png)  
 ![screen2](https://i.imgur.com/ngqJMFV.png)
