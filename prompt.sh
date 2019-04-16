@@ -14,7 +14,7 @@ prompt_segment() {
 # End the line, closing any open segments
 prompt_end() {
 	[[ -n $CURRENT_BG ]] && echo -n " %{%k%F{$CURRENT_BG}%}" || echo -n "%{%k%}"
-	[[ $1 == true ]] && echo "%{%f%}" || echo -n "%{%f%}"
+	echo -n "%{%f%}"
 	CURRENT_BG='NONE'
 }
 
@@ -77,13 +77,13 @@ prompt_git() {
 prompt_reg() {
 	[[ $1 -ne 0 && $1 -ne 148 ]] && prompt_segment red default ""
 	[[ $(jobs -l | wc -l) -gt 0 ]] && prompt_segment yellow black ""
-	[[ $UID -eq 0 ]] && prompt_segment black default "%{%F{yellow}%}⚡ %m" || prompt_segment black default "%n"
+	[[ $UID -eq 0 ]] && prompt_segment black default "%{%F{yellow}%}⚡"
 	prompt_segment blue black '%~'
 	prompt_end
 }
 
 build_prompt() {
-	prompt_git && prompt_reg $1
+	prompt_reg $1 && prompt_git
 }
 
 PROMPT='%{%f%b%k%}$(build_prompt $?) '
