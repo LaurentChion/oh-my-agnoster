@@ -34,12 +34,12 @@ prompt_git() {
 		local git_status="$(git status --porcelain 2> /dev/null)"
 		local tag=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
 
-		[[ $git_status =~ ($''|^).M ]] && local_prompt+=" ●"
-		[[ $git_status =~ ($''|^)M ]] && local_prompt+=" "
-		[[ $git_status =~ ($''|^)A ]] && local_prompt+=" ✚"
-		[[ $git_status =~ ($''|^).D ]] && local_prompt+=" "
-		[[ $git_status =~ ($''|^)D ]] && local_prompt+=" "
-		[[ $git_status =~ ($''|^)[MAD] && ! $git_status =~ ($''|^).[MAD\?] ]] && local_prompt+=" "
+		[[ $git_status =~ ($'\n'|^).M ]] && local_prompt+=" ●"
+		[[ $git_status =~ ($'\n'|^)M ]] && local_prompt+=" "
+		[[ $git_status =~ ($'\n'|^)A ]] && local_prompt+=" ✚"
+		[[ $git_status =~ ($'\n'|^).D ]] && local_prompt+=" "
+		[[ $git_status =~ ($'\n'|^)D ]] && local_prompt+=" "
+		[[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]] && local_prompt+=" "
 		[[ $(\grep -c "^??" <<< "${git_status}") -gt 0 ]] && local_prompt+=" " 
 		[[ $(git stash list -n1 2> /dev/null | wc -l) -gt 0 ]] && local_prompt+=" "
 
@@ -78,12 +78,17 @@ prompt_reg() {
 	[[ $1 -ne 0 && $1 -ne 148 ]] && prompt_segment red default ""
 	[[ $(jobs -l | wc -l) -gt 0 ]] && prompt_segment yellow black ""
 	[[ $UID -eq 0 ]] && prompt_segment black default "%{%F{yellow}%}⚡"
+}
+
+prompt_path() {
 	prompt_segment blue black '%~'
-	prompt_end
 }
 
 build_prompt() {
-	prompt_reg $1 && prompt_git
+	prompt_reg $1
+	prompt_path
+	prompt_git
+	prompt_end
 }
 
 PROMPT='%{%f%b%k%}$(build_prompt $?) '
