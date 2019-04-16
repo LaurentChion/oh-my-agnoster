@@ -77,14 +77,13 @@ prompt_git() {
 prompt_reg() {
 	[[ $1 -ne 0 && $1 -ne 148 ]] && prompt_segment red default ""
 	[[ $(jobs -l | wc -l) -gt 0 ]] && prompt_segment yellow black ""
-	[[ $UID -eq 0 ]] && prompt_segment black default "%{%F{yellow}%}⚡ %m" || prompt_segment black default "%m"
+	[[ $UID -eq 0 ]] && prompt_segment black default "%{%F{yellow}%}⚡ %m" || prompt_segment black default "%n"
 	prompt_segment blue black '%~'
 	prompt_end
 }
 
 build_prompt() {
-	prompt_git
-	prompt_reg $1
+	prompt_git && prompt_reg $1
 }
 
 PROMPT='%{%f%b%k%}$(build_prompt $?) '
