@@ -51,7 +51,7 @@ prompt_git() {
         fi
 
 		# Commits part
-		[[ -z $upstream ]] && commit_prompt="--   --"
+		[[ -z $upstream ]] && commit_prompt="--  --"
 		[[ $commits_ahead -gt 0 && $commits_behind -gt 0 ]] && commit_prompt="-${commits_behind}  +${commits_ahead}"
 		[[ $commits_ahead -eq 0 && $commits_behind -gt 0 ]] && commit_prompt="-${commits_behind} ▼ --"
 		[[ $commits_ahead -gt 0 && $commits_behind -eq 0 ]] && commit_prompt="-- ▲ +${commits_ahead}"
@@ -67,8 +67,8 @@ prompt_git() {
 
 		# Print the git prompt
 		prompt_segment green black $local_prompt
-		[[ -n $commit_prompt ]] && prompt_segment black white $commit_prompt
-		[[ $current_branch == 'HEAD' ]] && prompt_segment red white " (${current_commit_hash:0:7})" || prompt_segment blue black $remote_prompt
+		[[ $current_branch == 'HEAD' ]] && prompt_segment red white " (${current_commit_hash:0:7})" || prompt_segment black white $remote_prompt
+		[[ -n $commit_prompt ]] && prompt_segment yellow black $commit_prompt
 	fi
 }
 
