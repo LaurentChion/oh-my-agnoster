@@ -34,12 +34,12 @@ prompt_git() {
 		local git_status="$(git status --porcelain 2> /dev/null)"
 		local tag=$(git describe --exact-match --tags $current_commit_hash 2> /dev/null)
 
-		[[ $git_status =~ ($'\n'|^).M ]] && local_prompt+=" ●"
-		[[ $git_status =~ ($'\n'|^)M ]] && local_prompt+=" "
-		[[ $git_status =~ ($'\n'|^)A ]] && local_prompt+=" ✚"
-		[[ $git_status =~ ($'\n'|^).D ]] && local_prompt+=" "
-		[[ $git_status =~ ($'\n'|^)D ]] && local_prompt+=" "
-		[[ $git_status =~ ($'\n'|^)[MAD] && ! $git_status =~ ($'\n'|^).[MAD\?] ]] && local_prompt+=" "
+		[[ $git_status =~ ($''|^).M ]] && local_prompt+=" ●"
+		[[ $git_status =~ ($''|^)M ]] && local_prompt+=" "
+		[[ $git_status =~ ($''|^)A ]] && local_prompt+=" ✚"
+		[[ $git_status =~ ($''|^).D ]] && local_prompt+=" "
+		[[ $git_status =~ ($''|^)D ]] && local_prompt+=" "
+		[[ $git_status =~ ($''|^)[MAD] && ! $git_status =~ ($''|^).[MAD\?] ]] && local_prompt+=" "
 		[[ $(\grep -c "^??" <<< "${git_status}") -gt 0 ]] && local_prompt+=" " 
 		[[ $(git stash list -n1 2> /dev/null | wc -l) -gt 0 ]] && local_prompt+=" "
 
