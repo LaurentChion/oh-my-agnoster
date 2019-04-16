@@ -69,7 +69,6 @@ prompt_git() {
 		prompt_segment green black $local_prompt
 		[[ -n $commit_prompt ]] && prompt_segment black white $commit_prompt
 		[[ $current_branch == 'HEAD' ]] && prompt_segment red white " (${current_commit_hash:0:7})" || prompt_segment blue black $remote_prompt
-		prompt_end true
 	fi
 }
 
